@@ -35,3 +35,19 @@ body {
 .dark-gradient-bg {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
 }
+
+.fade-animation {
+  animation: fade-in-out 1s ease-in-out both;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
