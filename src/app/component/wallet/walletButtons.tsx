@@ -1,21 +1,28 @@
+import { greenBtnCss } from "@/app/constant/tailwind";
 import {
-  useWallet,
-  WalletReadyState,
   Wallet,
-  isRedirectable,
   WalletName,
+  WalletReadyState,
+  isRedirectable,
+  useWallet,
 } from "@aptos-labs/wallet-adapter-react";
-import { useAlert } from "./alertProvider";
-import { Dispatch, SetStateAction, ReactNode } from "react";
+import { Button } from "@nextui-org/react";
+import Image from "next/image";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import { useAlert } from "../alert/alertProvider";
 
 const WalletButtons = () => {
-  const { wallets, connect } = useWallet();
+  const { wallets, connect, connected } = useWallet();
+  // 只取Pontern登入
+  const pontemWallet: any = wallets?.[1] ?? {};
+  pontemWallet.name = "Connect Wallet By Pontem";
+  const showWallet: any = [pontemWallet] ?? [];
   const { setErrorAlertMessage } = useAlert();
 
   return (
     <>
-      {wallets?.map((wallet: Wallet) => {
-        return WalletView(wallet, connect, setErrorAlertMessage);
+      {showWallet?.map((wallet: Wallet) => {
+        return WalletView(wallet, connect, connected, setErrorAlertMessage);
       })}
     </>
   );
@@ -24,6 +31,7 @@ const WalletButtons = () => {
 const WalletView = (
   wallet: Wallet,
   connect: (walletName: WalletName) => void,
+  connected: boolean,
   setErrorAlertMessage: Dispatch<SetStateAction<ReactNode>>,
 ) => {
   const isWalletReady =
@@ -49,6 +57,7 @@ const WalletView = (
    * isRedirectable() - are we on mobile AND not in an in-app browser
    * mobileSupport - does wallet have deeplinkProvider property? i.e does it support a mobile app
    */
+
   if (!isWalletReady && isRedirectable()) {
     // wallet has mobile app
     if (mobileSupport) {
@@ -76,16 +85,31 @@ const WalletView = (
   } else {
     // we are on desktop view
     return (
-      <button
-        className={`bg-blue-500  text-white font-bold py-2 px-4 rounded mr-4 ${
-          isWalletReady ? "hover:bg-blue-700" : "opacity-50 cursor-not-allowed"
-        }`}
-        disabled={!isWalletReady}
-        key={wallet.name}
-        onClick={() => onWalletConnectRequest(wallet.name)}
-      >
-        <>{wallet.name}</>
-      </button>
+      <>
+        {connected && (
+          <Button
+            className={greenBtnCss}
+            disabled={!isWalletReady}
+            key={wallet.name}
+            onClick={() => onWalletConnectRequest(wallet.name)}
+            variant="flat"
+          >
+            <>{wallet.name}</>
+          </Button>
+        )}
+        {!connected && (
+          <Button className={greenBtnCss}>
+            <Image
+              src={wallet.icon}
+              width={20}
+              height={20}
+              alt="icon"
+              className="mr-2"
+            />
+            已连接
+          </Button>
+        )}
+      </>
     );
   }
 };

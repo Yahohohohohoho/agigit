@@ -1,13 +1,10 @@
-import {
-  AptosWalletAdapterProvider,
-  NetworkName,
-} from "@aptos-labs/wallet-adapter-react";
-import { AutoConnectProvider, useAutoConnect } from "./autoConnectProvider";
-import { FC, ReactNode } from "react";
-import { PontemWallet } from "@pontem/wallet-adapter-plugin";
-import { AlertProvider, useAlert } from "./alertProvider";
-import { IdentityConnectWallet } from "@identity-connect/wallet-adapter-plugin";
 import { Network } from "@aptos-labs/ts-sdk";
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+import { IdentityConnectWallet } from "@identity-connect/wallet-adapter-plugin";
+import { PontemWallet } from "@pontem/wallet-adapter-plugin";
+import { FC, ReactNode } from "react";
+import { AlertProvider, useAlert } from "../alert/alertProvider";
+import { AutoConnectProvider, useAutoConnect } from "./autoConnectProvider";
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { autoConnect } = useAutoConnect();
