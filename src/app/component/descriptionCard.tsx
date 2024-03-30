@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 
 export default function DescriptionCard(props: any) {
-  const { relayHash, description } = props;
+  const { relayHash } = props;
 
   return (
     <Card

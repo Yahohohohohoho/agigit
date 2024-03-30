@@ -1,29 +1,16 @@
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@nextui-org/react";
-import dynamic from "next/dynamic";
+import { Navbar, NavbarBrand } from "@nextui-org/react";
 import { AcmeLogo } from "../icon/AcmeLogo";
-
-const WalletButtons = dynamic(() => import("./wallet/walletButtons"), {
-  suspense: false,
-  ssr: false,
-});
 
 export default function Narbar() {
   return (
     <Navbar className="dark-gradient-bg rounded-[20px]">
       <NavbarBrand className="w-20">
         <AcmeLogo />
-        <p className="font-bold text-inherit text-[28px]">AGI-GIT</p>
+        <p className="font-bold text-[#c6cad6] text-[28px]">AGI-GIT:</p>
+        <p className=" text-[#c6cad6] text-[22px] mx-5">
+          Facilitating seamless collaboration in AGI training
+        </p>
       </NavbarBrand>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <WalletButtons />
-        </NavbarItem>
-      </NavbarContent>
     </Navbar>
   );
 }
