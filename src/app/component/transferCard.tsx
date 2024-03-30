@@ -3,13 +3,7 @@ import Image from "next/image";
 import dottedArrow from "/public/imgs/dottedArrow.png";
 
 export default function TransferCard(props: any) {
-  const { type, relayHash } = props;
-  const extraData = {
-    from: "1J93t4tZ76hX9i3Qd7aR4yY3F4iGqG6z8z7gPN8oQe",
-    to: "3A3gYZFopmTK1bSVLwsMQDntWQTZARfNXq",
-    gas: "233",
-    toName: "Test",
-  };
+  const { result, extraData } = props;
   const formatAddress = (s: string) => {
     if (s) {
       const head = s.slice(0, 4);
@@ -27,7 +21,7 @@ export default function TransferCard(props: any) {
       >
         <CardHeader className="relative">
           <div className="text-[24px] text-[#c6cad6] pl-3 mt-2">
-            AgiGit {type}
+            AgiGit {result.type}
           </div>
         </CardHeader>
         <CardBody className="px-3 py-0">
@@ -47,7 +41,7 @@ export default function TransferCard(props: any) {
             </div>
             <div className="basis-1/3">
               <div className="text-[28px] font-bold mb-3">
-                {relayHash || "wait"}
+                {result.relayHash || "wait"}
               </div>
               <Code>{formatAddress(extraData.to)}</Code>
             </div>
