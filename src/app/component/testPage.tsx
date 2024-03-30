@@ -5,9 +5,12 @@ import {
   WalletInfo,
   useWallet,
 } from "@aptos-labs/wallet-adapter-react";
+import { Link } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useAutoConnect } from "./wallet/autoConnectProvider";
 import Col from "./wallet/col";
+import Row from "./wallet/row";
 
 const WalletButtons = dynamic(() => import("./wallet/walletButtons"), {
   suspense: false,
@@ -27,8 +30,30 @@ const TestPage = () => {
 
   return (
     <div>
+      <h1 className="flex justify-center mt-2 mb-4 text-4xl font-extrabold tracking-tight leading-none text-black">
+        Aptos Wallet Adapter Tester ({network?.name ?? ""})
+      </h1>
+      <Link
+        href="https://github.com/aptos-labs/aptos-wallet-adapter/tree/main/apps/nextjs-example"
+        target="_blank"
+        className="flex justify-center tracking-tight leading-none text-black"
+      >
+        Demo app source code
+      </Link>
       <table className="table-auto w-full border-separate border-spacing-y-8 shadow-lg bg-white border-separate">
         <tbody>
+          <WalletSelect />
+          <AutoConnect />
+          {connected && (
+            <Row>
+              <Col title={true} border={true}>
+                <h3>
+                  <b>Wallet Information</b>
+                </h3>
+              </Col>
+              <Col border={true} />
+            </Row>
+          )}
           {connected && (
             <WalletProps wallet={wallet} network={network} account={account} />
           )}
@@ -47,6 +72,30 @@ const TestPage = () => {
     </div>
   );
 };
+
+function WalletSelect() {
+  return (
+    <>
+      <Row>
+        <Col title={true} border={true}>
+          <h2>
+            <b>Wallet Select</b>
+          </h2>
+        </Col>
+        <Col border={true} />
+      </Row>
+      <Row>
+        <Col title={true}>
+          <h3>Connect a Wallet</h3>
+        </Col>
+        <Col>
+          <WalletButtons />
+        </Col>
+      </Row>
+    </>
+  );
+}
+
 // TODO: Verify public key matches account
 function WalletProps(props: {
   account: AccountInfo | null;
@@ -90,7 +139,121 @@ function WalletProps(props: {
           </a>
         </Col>
       </tr>
+      <Row>
+        <Col title={true}>
+          <h3>Account Info</h3>
+        </Col>
+        <Col>
+          <DisplayRequiredValue
+            name={"Address"}
+            isCorrect={!!account?.address}
+            value={account?.address}
+          />
+          <DisplayRequiredValue
+            name={"Public key"}
+            isCorrect={!!account?.publicKey}
+            value={account?.publicKey?.toString()}
+          />
+          <DisplayOptionalValue
+            name={"ANS Name (only if attached)"}
+            value={account?.ansName}
+          />
+          <DisplayOptionalValue
+            name={"Min keys required (only for multisig)"}
+            value={account?.minKeysRequired?.toString()}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col title={true}>
+          <h3>Network Info</h3>
+        </Col>
+        <Col>
+          <DisplayRequiredValue
+            name={"Network Name"}
+            isCorrect={isValidNetworkName()}
+            value={network?.name}
+            expected={"one of: " + Object.values<string>(Network).join(", ")}
+          />
+          <DisplayOptionalValue name={"URL"} value={network?.url} />
+          <DisplayOptionalValue name={"ChainId"} value={network?.chainId} />
+        </Col>
+      </Row>
     </>
   );
 }
+
+function DisplayRequiredValue(props: {
+  name: string;
+  isCorrect: boolean;
+  value?: string;
+  expected?: string;
+}) {
+  const { name, isCorrect, value, expected } = props;
+
+  const successStyling = () => {
+    if (isCorrect) {
+      return { color: "green" };
+    } else {
+      return { color: "black", border: "2px solid red" };
+    }
+  };
+
+  return (
+    <div style={successStyling()}>
+      <p>
+        <b>{name}:</b> {value ?? "Not present"}{" "}
+        {!isCorrect && expected && (
+          <>
+            <b>Expected:</b> {expected}
+          </>
+        )}
+      </p>
+    </div>
+  );
+}
+
+function DisplayOptionalValue(props: { name: string; value?: string | null }) {
+  return (
+    <div>
+      <p>
+        <b>{props.name}:</b> {props.value ?? "Not present"}
+      </p>
+    </div>
+  );
+}
+
+function AutoConnect() {
+  const { autoConnect, setAutoConnect } = useAutoConnect();
+  return (
+    <>
+      <Row>
+        <Col title={true} border={true}>
+          <h3>Auto reconnect on page open</h3>
+        </Col>
+        <Col border={true}>
+          <div className="relative flex flex-col overflow-hidden">
+            <div className="flex">
+              <label className="inline-flex relative items-center mr-5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={autoConnect}
+                  readOnly
+                />
+                <div
+                  onClick={() => {
+                    setAutoConnect(!autoConnect);
+                  }}
+                  className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
+                ></div>
+              </label>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </>
+  );
+}
+
 export default TestPage;

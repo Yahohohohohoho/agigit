@@ -13,9 +13,9 @@ import { useAlert } from "../alert/alertProvider";
 
 const WalletButtons = () => {
   const { wallets, connect, connected } = useWallet();
+  console.log("wallets: ", wallets);
   // 只取Pontern登入
   const pontemWallet: any = wallets?.[1] ?? {};
-  pontemWallet.name = "Connect Wallet By Pontem";
   const showWallet: any = [pontemWallet] ?? [];
   const { setErrorAlertMessage } = useAlert();
 
@@ -86,7 +86,7 @@ const WalletView = (
     // we are on desktop view
     return (
       <>
-        {connected && (
+        {!connected && (
           <Button
             className={greenBtnCss}
             disabled={!isWalletReady}
@@ -94,10 +94,10 @@ const WalletView = (
             onClick={() => onWalletConnectRequest(wallet.name)}
             variant="flat"
           >
-            <>{wallet.name}</>
+            Connect Wallet By Pontem
           </Button>
         )}
-        {!connected && (
+        {connected && (
           <Button className={greenBtnCss}>
             <Image
               src={wallet.icon}

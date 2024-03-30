@@ -78,6 +78,7 @@ export default function Home() {
           <Navbar />
           <CommandLine />
           <TransferCard />
+          {/* <TestPage /> */}
         </div>
       </AppContext>
     </NextUIProvider>
