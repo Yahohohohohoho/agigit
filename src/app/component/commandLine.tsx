@@ -1,5 +1,6 @@
 import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
+import { registerAgiGit } from "../util/registerAgiGit";
 
 export default function CommandLine(props: any) {
   const [value, setValue] = useState("");
@@ -20,7 +21,13 @@ export default function CommandLine(props: any) {
             <label htmlFor="comment" className="sr-only">
               Add your code
             </label>
-            <Editor height="20vh" defaultLanguage="git" defaultValue="add ." />
+            <Editor
+              height="40vh"
+              defaultLanguage="AgiGit"
+              defaultValue="AgiGit add ."
+              theme="AgiGitTheme"
+              onMount={registerAgiGit}
+            />
           </div>
           <div className="flex justify-between pt-2">
             <div className="flex items-center space-x-5"></div>
