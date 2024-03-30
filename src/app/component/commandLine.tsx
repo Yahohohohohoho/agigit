@@ -1,46 +1,71 @@
 import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
+import { Button } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { greenBtnCss } from "../constant/tailwind";
+import { getLocalStorage, setLocalStorage } from "../util/localStorage";
 import { registerAgiGit } from "../util/registerAgiGit";
 
 export default function CommandLine(props: any) {
-  const [value, setValue] = useState("");
-  const handleKeyDown = (event: any) => {
-    if (event.key === "Enter") {
-      props.onKeyDown(value);
-      event.preventDefault();
-    }
+  const [editorValue, setEditorValue] = useState<string | undefined>(
+    "AgiGit add .",
+  );
+  const [recordList, setRecordList] = useState<any>([]);
+
+  const handleEditorChange = (value: string | undefined) => {
+    setEditorValue(value);
   };
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    const list = getLocalStorage("record") ?? [];
+    setRecordList(list);
+  }, []);
 
   return (
-    <div className="flex justify-center items-start py-10 px-4">
-      <div className="w-full rounded-xl border p-2">
-        <form action="#" onSubmit={handleSubmit}>
-          <div className="">
-            <label htmlFor="comment" className="sr-only">
-              Add your code
-            </label>
-            <Editor
-              height="40vh"
-              defaultLanguage="AgiGit"
-              defaultValue="AgiGit add ."
-              theme="AgiGitTheme"
-              onMount={registerAgiGit}
-            />
-          </div>
-          <div className="flex justify-between pt-2">
-            <div className="flex items-center space-x-5"></div>
-            <div className="flex-shrink-0">
-              <button
-                type="submit"
-                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+    <div className="flex y-10 px-4 my-4">
+      <div className="w-2/3 rounded-xl border p-2 mr-2">
+        <div className="">
+          <label htmlFor="comment" className="sr-only">
+            Add your code
+          </label>
+          <Editor
+            height="40vh"
+            defaultLanguage="AgiGit"
+            value={editorValue}
+            theme="AgiGitTheme"
+            onMount={registerAgiGit}
+            onChange={handleEditorChange}
+          />
+        </div>
+        <div className="flex flex-row-reverse mt-2">
+          <Button
+            className={greenBtnCss}
+            onClick={() => {
+              if ((editorValue ?? "").length > 0) {
+                const list = [editorValue, ...recordList];
+                setRecordList(list);
+                setEditorValue("");
+                setLocalStorage("record", list);
+              }
+            }}
+          >
+            Run
+          </Button>
+        </div>
+      </div>
+      <div className="w-1/3 rounded-xl border p-4 bg-[#fff] font-bold overflow-y-scroll h-[400px] scrollbar-thin">
+        <div className="text-xl text-bold mb-2">History Record</div>
+        <div>
+          {recordList.map((item: string, idx: number) => {
+            return (
+              <div
+                className="text-sm w-full rounded-xl bg-[#F8F6E3] mb-2 p-2 font-normal"
+                key={item}
               >
-                Run
-              </button>
-            </div>
-          </div>
-        </form>
+                {idx + 1}: {item}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
