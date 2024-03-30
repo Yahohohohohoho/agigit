@@ -7,6 +7,65 @@ import {
   Button,
 } from "@nextui-org/react";
 import { AcmeLogo } from "../icon/AcmeLogo";
+import AutoConnect from "./autoConnect";
+import {
+  useWallet,
+  AccountInfo,
+  NetworkInfo,
+  WalletInfo,
+} from "@aptos-labs/wallet-adapter-react";
+import { useAutoConnect } from "./autoConnectProvider";
+import { Network } from "@aptos-labs/ts-sdk";
+import { Image } from "@nextui-org/react";
+import TestPage from "./testPage";
+
+// TODO: Verify public key matches account
+function WalletProps(props: {
+  account: AccountInfo | null;
+  network: NetworkInfo | null;
+  wallet: WalletInfo | null;
+}) {
+  const { account, network, wallet } = props;
+  console.log("wallet: ", wallet);
+  const isValidNetworkName = () => {
+    // TODO: Do we allow non lowercase
+    return Object.values<string | undefined>(Network).includes(
+      props.network?.name,
+    );
+  };
+
+  return (
+    <div className="text-[#fff]">
+      <tr>
+        <div>
+          <h3>Wallet Name</h3>
+        </div>
+        <div>
+          <b>Icon: </b>
+          {props.wallet && (
+            <Image
+              src={wallet?.icon ?? ""}
+              alt={wallet?.name ?? ""}
+              width={25}
+              height={25}
+            />
+          )}
+          <b> Name: </b>
+          {wallet?.name}
+          <b> URL: </b>
+          <a
+            target="_blank"
+            className="text-sky-600"
+            rel="noreferrer"
+            href={wallet?.url}
+          >
+            {wallet?.url}
+          </a>
+        </div>
+      </tr>
+    </div>
+  );
+}
 
 export default function Narbar() {
   return (
@@ -17,13 +76,7 @@ export default function Narbar() {
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button
-            className="bg-[#27A750] text-white font-bold px-5 py-2 rounded-lg shadow-lg transition duration-300 ease-in-out hover:bg-[#67e2c2]"
-            href="#"
-            variant="flat"
-          >
-            Connect Wallet
-          </Button>
+          <div className="flex items-center"></div>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
