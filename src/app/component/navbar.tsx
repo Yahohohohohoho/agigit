@@ -14,7 +14,7 @@ const WalletButtons = dynamic(() => import("./wallet/walletButtons"), {
 
 export default function Narbar() {
   return (
-    <Navbar className="dark-gradient-bg">
+    <Navbar className="dark-gradient-bg rounded-[20px]">
       <NavbarBrand className="w-20">
         <AcmeLogo />
         <p className="font-bold text-inherit text-[28px]">AGI-GIT</p>
