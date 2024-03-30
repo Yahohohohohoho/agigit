@@ -13,7 +13,6 @@ import { useAlert } from "../alert/alertProvider";
 
 const WalletButtons = () => {
   const { wallets, connect, connected } = useWallet();
-  console.log("wallets: ", wallets);
   // 只取Pontern登入
   const pontemWallet: any = wallets?.[1] ?? {};
   const showWallet: any = [pontemWallet] ?? [];

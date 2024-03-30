@@ -4,8 +4,13 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
+import dynamic from "next/dynamic";
 import { AcmeLogo } from "../icon/AcmeLogo";
-import WalletButtons from "./wallet/walletButtons";
+
+const WalletButtons = dynamic(() => import("./wallet/walletButtons"), {
+  suspense: false,
+  ssr: false,
+});
 
 export default function Narbar() {
   return (
