@@ -5,10 +5,13 @@ import { greenBtnCss } from "../constant/tailwind";
 import { getLocalStorage, setLocalStorage } from "../util/localStorage";
 import { registerAgiGit } from "../util/registerAgiGit";
 
-export default function CommandLine(props: any) {
-  const [editorValue, setEditorValue] = useState<string | undefined>(
-    "AgiGit add .",
-  );
+interface IProps {
+  setCommand: any;
+}
+
+export default function CommandLine(props: IProps) {
+  const { setCommand } = props;
+  const [editorValue, setEditorValue] = useState<string | undefined>("");
   const [recordList, setRecordList] = useState<any>([]);
 
   const handleEditorChange = (value: string | undefined) => {
@@ -41,6 +44,7 @@ export default function CommandLine(props: any) {
             className={greenBtnCss}
             onClick={() => {
               if ((editorValue ?? "").length > 0) {
+                setCommand(editorValue);
                 const list = [editorValue, ...recordList];
                 setRecordList(list);
                 setEditorValue("");
@@ -59,7 +63,7 @@ export default function CommandLine(props: any) {
             return (
               <div
                 className="text-sm w-full rounded-xl bg-[#F8F6E3] mb-2 p-2 font-normal"
-                key={item}
+                key={idx}
               >
                 {idx + 1}: {item}
               </div>

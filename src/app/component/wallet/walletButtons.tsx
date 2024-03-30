@@ -8,11 +8,15 @@ import {
 } from "@aptos-labs/wallet-adapter-react";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
 import { useAlert } from "../alert/alertProvider";
 
-const WalletButtons = () => {
+const WalletButtons = ({ setLoginState }: { setLoginState?: any }) => {
   const { wallets, connect, connected } = useWallet();
+
+  useEffect(() => {
+    setLoginState(connected);
+  }, [connected]);
   // 只取Pontern登入
   const pontemWallet: any = wallets?.[1] ?? {};
   const showWallet: any = [pontemWallet] ?? [];
