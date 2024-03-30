@@ -8,11 +8,18 @@ import {
 } from "@aptos-labs/wallet-adapter-react";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
-import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useAlert } from "../alert/alertProvider";
 
 const WalletButtons = ({ setLoginState }: { setLoginState?: any }) => {
   const { wallets, connect, connected } = useWallet();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setLoginState(connected);
@@ -25,7 +32,14 @@ const WalletButtons = ({ setLoginState }: { setLoginState?: any }) => {
   return (
     <>
       {showWallet?.map((wallet: Wallet) => {
-        return WalletView(wallet, connect, connected, setErrorAlertMessage);
+        return WalletView(
+          wallet,
+          connect,
+          connected,
+          setErrorAlertMessage,
+          loading,
+          setLoading,
+        );
       })}
     </>
   );
@@ -36,6 +50,8 @@ const WalletView = (
   connect: (walletName: WalletName) => void,
   connected: boolean,
   setErrorAlertMessage: Dispatch<SetStateAction<ReactNode>>,
+  loading: boolean,
+  setLoading: any,
 ) => {
   const isWalletReady =
     wallet.readyState === WalletReadyState.Installed ||
@@ -43,8 +59,10 @@ const WalletView = (
   const mobileSupport = wallet.deeplinkProvider;
 
   const onWalletConnectRequest = async (walletName: WalletName) => {
+    setLoading(true);
     try {
       await connect(walletName);
+      setLoading(false);
     } catch (error: any) {
       setErrorAlertMessage(error);
     }
@@ -92,6 +110,7 @@ const WalletView = (
         {!connected && (
           <Button
             className={greenBtnCss}
+            isLoading={loading}
             disabled={!isWalletReady}
             key={wallet.name}
             onClick={() => onWalletConnectRequest(wallet.name)}
