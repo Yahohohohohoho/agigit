@@ -1,6 +1,4 @@
-"use client";
-
-import { Input } from "@nextui-org/react";
+import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 
 export default function CommandLine(props: any) {
@@ -11,14 +9,32 @@ export default function CommandLine(props: any) {
       event.preventDefault();
     }
   };
+
+  const handleSubmit = () => {};
+
   return (
-    <>
-      <Input
-        className="my-5 px-6"
-        value={value}
-        onValueChange={setValue}
-        onKeyDown={handleKeyDown}
-      />
-    </>
+    <div className="flex justify-center items-start py-10 px-4">
+      <div className="w-full rounded-xl border p-2">
+        <form action="#" onSubmit={handleSubmit}>
+          <div className="">
+            <label htmlFor="comment" className="sr-only">
+              Add your code
+            </label>
+            <Editor height="20vh" defaultLanguage="git" defaultValue="add ." />
+          </div>
+          <div className="flex justify-between pt-2">
+            <div className="flex items-center space-x-5"></div>
+            <div className="flex-shrink-0">
+              <button
+                type="submit"
+                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              >
+                Run
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
