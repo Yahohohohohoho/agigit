@@ -1,14 +1,13 @@
 "use client";
 
-import { AppContext } from "./component/appContext";
-import TestPage from "./component/testPage";
 import { NextUIProvider } from "@nextui-org/react";
+import { AppContext } from "./component/appContext";
 ("use client");
 
+import { useEffect, useState } from "react";
+import CommandLine from "./component/commandLine1";
 import Navbar from "./component/navbar";
-import CommandLine from "./component/commandLine";
-import TransferCard from "./component/transferCard";
-import { useEffect, useState, useRef } from "react";
+import TransferCard from "./component/transferCard1";
 
 export default function Home() {
   function parsingCommand(command: string) {
