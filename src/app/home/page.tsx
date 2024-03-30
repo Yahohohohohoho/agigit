@@ -1,11 +1,11 @@
 "use client";
-import { Navbar, NextUIProvider } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
+import { NextUIProvider } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import CommandLine from "../component/commandLine";
 import DescriptionCard from "../component/descriptionCard";
+import Navbar from "../component/navbar";
 import TransferCard from "../component/transferCard";
 import { AppContext } from "../component/wallet/appContext";
-
 interface commandResult {
   type: string | "add" | "remove" | "pull" | "push" | null;
   relayHash: string;
@@ -30,7 +30,7 @@ export default function Home() {
       },
       {
         substr: "agigit relay remove",
-        getResult: (command: string) => {
+        getResult: () => {
           return {
             type: "remove",
             relayHash: "",
@@ -39,7 +39,7 @@ export default function Home() {
       },
       {
         substr: "agigit pull",
-        getResult: (command: string) => {
+        getResult: () => {
           return {
             type: "pull",
           };
@@ -47,7 +47,7 @@ export default function Home() {
       },
       {
         substr: "agigit push",
-        getResult: (command: string) => {
+        getResult: () => {
           return {
             type: "push",
           };
@@ -55,8 +55,8 @@ export default function Home() {
       },
     ];
     for (let item of subStrList) {
-      if (command.includes(item.substr)) {
-        result = { ...result, ...item.getResult(command) };
+      if (command.toLocaleLowerCase().includes(item.substr)) {
+        result = { ...result, ...item.getResult(command.toLocaleLowerCase()) };
         break;
       } else {
         console.log("error command!");
@@ -68,27 +68,19 @@ export default function Home() {
   const [result, setResult] = useState<commandResult>();
   const [pullCardDom, setPullCardDom] = useState<any>();
   const [pushCardDom, setPushCardDom] = useState<any>();
-  const relayHash = useRef("");
 
   useEffect(() => {
     setResult(parsingCommand(command));
-    if (result?.type === "add") {
-      relayHash.current = result!.relayHash;
-    }
-    if (result?.type === "remove") {
-      relayHash.current = "";
-    }
+  }, [command]);
+
+  useEffect(() => {
     if (result?.type === "pull") {
-      setPullCardDom(
-        <TransferCard key="pull" className="fade-animation" {...result} />,
-      );
+      setPullCardDom(<TransferCard key="pull" {...result} />);
     }
     if (result?.type === "push") {
-      setPushCardDom(
-        <TransferCard key="push" className="fade-animation" {...result} />,
-      );
+      setPushCardDom(<TransferCard key="push" {...result} />);
     }
-  }, [command]);
+  }, [result]);
 
   return (
     <NextUIProvider>
@@ -96,15 +88,8 @@ export default function Home() {
         <div className="flex min-h-screen flex-col p-24">
           <Navbar />
           <CommandLine setCommand={setCommand} />
-          <TransferCard />
           <div className="flex flex-row px-6 w-full">
-            {relayHash.current && (
-              <DescriptionCard
-                key="add"
-                className="fade-animation"
-                {...result}
-              />
-            )}
+            {result?.relayHash && <DescriptionCard key="add" {...result} />}
             {pullCardDom}
             {pushCardDom}
           </div>
