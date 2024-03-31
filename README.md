@@ -45,7 +45,7 @@ cd relay-service/
 go build -o relayer-basic
 Enter your database username and password
 POSTGRESQL_DATABASE=postgres://name:pass@localhost:5432/dbname ./relayer-basic  
-
+```
 ## Technology stack
 
 ### Client
