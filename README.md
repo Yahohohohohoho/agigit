@@ -65,7 +65,7 @@ POSTGRESQL_DATABASE=postgres://name:pass@localhost:5432/dbname ./relayer-basic
 
 ### Connect Wallet
 
-If you need to log in, you will need to install the corresponding Chrome extension. We are using the Pontem Wallet here. Please go to the Google Chrome market to install the `Pontem Aptos Wallet`, and then follow the instructions to register.
+If you need to log in, you will need to install the corresponding Chrome extension. We are using the Pontem Wallet here. Please go to the Google Chrome market to install the [Pontem Aptos Wallet](https://chromewebstore.google.com/detail/pontem-aptos-wallet/phkbamefinggmakgklpkljjmgibohnba), and then follow the instructions to register.
 
 <div style="text-align:center;">
 <img src="https://github.com/XinBaoCode/ImageBed/blob/main/remoteBBY/agigit-1.png?raw=true" alt="firstStep.jpg" width="38%" style="display:inline-block;">
