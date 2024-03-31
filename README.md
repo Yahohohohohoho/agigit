@@ -26,8 +26,8 @@ The Agigit project primarily has two objectives.
 
 ```bash
 cd client
-pnpm install
-pnpm run dev
+npm install
+npm run dev
 ```
 
 ### Server
