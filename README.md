@@ -20,6 +20,18 @@ The Agigit project primarily has two objectives.
 
 2. The second one is to achieve decentralized storage of git through Move contracts.
 
+## File structure
+
+```bash
+client
+contract
+pytorch
+server
+.gitignore
+logo.png
+README.md
+```
+
 ## Start Project
 
 ### Client
