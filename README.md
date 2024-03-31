@@ -32,6 +32,20 @@ npm run dev
 
 ### Server
 
+## Installation Requirements
+
+- Go environment
+- PostgreSQL database
+
+## Startup Method
+
+```bash
+go mod tidy
+cd relay-service/
+go build -o relayer-basic
+Enter your database username and password
+POSTGRESQL_DATABASE=postgres://name:pass@localhost:5432/dbname ./relayer-basic  
+
 ## Technology stack
 
 ### Client
@@ -42,3 +56,8 @@ npm run dev
 * aptos
 * NextUI
 * monaco-editor
+
+### Server
+* GoLang
+* aptos
+* PostgreSQL 
