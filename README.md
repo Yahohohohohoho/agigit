@@ -1,6 +1,6 @@
 <p align="center">
   <img src="logo.png" width="200px" align="center" alt="Babel Logo" />
-  <h1 align="center">Babel - AgiGit </h1>
+  <h1 align="center">AgiGit </h1>
   <p align="center">
     Vercel: ✨ <a href="https://agi-git.vercel.app/ ">Agi-Git Link</a> ✨
   </p>
@@ -88,3 +88,8 @@ If you need to log in, you will need to install the corresponding Chrome extensi
 
 ### Contract
 * Move
+
+### MachineLearning
+* conda python=3.9
+* pytorch
+* numpy
