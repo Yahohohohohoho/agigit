@@ -87,7 +87,6 @@ export default function Home() {
         ABI,
         pontemProviderRef.current,
       );
-      console.log("contract.current", contract.current);
     }
   }, []);
 
@@ -142,7 +141,7 @@ export default function Home() {
   };
   const contractOfRaisePayment = async () => {
     try {
-      const result = await pontemProviderRef.current.signAndSubmit(tx);
+      const result = await pontemProviderRef.current.signAndSubmit();
     } catch (e) {
       console.log(e);
     }
