@@ -22,14 +22,16 @@ The Agigit project primarily has two objectives.
 
 ## File structure
 
-```bash
-client
-contract
-pytorch
-server
-.gitignore
-logo.png
-README.md
+```
+AgiGit
+└── AgiGit
+└── client
+└── contract
+└── pytorch
+└── server
+└── .gitignore
+└── logo.png
+└── README.md
 ```
 
 ## Start Project
