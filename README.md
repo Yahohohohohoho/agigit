@@ -2,7 +2,7 @@
   <img src="logo.png" width="200px" align="center" alt="Babel Logo" />
   <h1 align="center">AgiGit </h1>
   <p align="center">
-    Vercel: ✨ <a href="https://agi-git.vercel.app/ ">Agi-Git Link</a> ✨
+    Vercel: ✨ <a href="https://agigit.vercel.app/ ">Agi-Git Link</a> ✨
   </p>
    <p align="center">
       AgiGit is the future git🤩.
