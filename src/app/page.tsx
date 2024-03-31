@@ -24,8 +24,29 @@ export default function Page() {
     }
   }, []);
 
+  function detectProvider(timeout = 3000) {
+    return new Promise((resolve, reject) => {
+      if (typeof (window as any).pontem === "undefined") {
+        const timer = setTimeout(reject, timeout);
+        window.addEventListener(
+          "#pontemWalletInjected",
+          (e) => {
+            clearTimeout(timer);
+            resolve((e as any).detail);
+          },
+          { once: true },
+        );
+      } else {
+        resolve((window as any).pontem);
+      }
+    });
+  }
+
   useEffect(() => {
     if (loginState) {
+      detectProvider()
+        .then((provider) => ((window as any).pontem = provider))
+        .catch(() => console.log("Pontem Wallet not found"));
       void router.push("/home");
     }
   }, [loginState, router]);

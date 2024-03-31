@@ -1,11 +1,14 @@
 "use client";
-import { NextUIProvider } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { NextUIProvider, Progress } from "@nextui-org/react";
+import { Contract } from "ethers";
+import { useEffect, useRef, useState } from "react";
 import CommandLine from "../component/commandLine";
 import DescriptionCard from "../component/descriptionCard";
 import Navbar from "../component/navbar";
 import TransferCard from "../component/transferCard";
 import { AppContext } from "../component/wallet/appContext";
+import ABI from "../constant/ABI.json";
+import { contractAddress } from "../constant/contractAddress";
 interface commandResult {
   type: string | "add" | "remove" | "pull" | "push" | null;
   relayHash: string;
@@ -56,7 +59,11 @@ export default function Home() {
     ];
     for (let item of subStrList) {
       if (command.toLocaleLowerCase().includes(item.substr)) {
-        result = { ...result, ...item.getResult(command.toLocaleLowerCase()) };
+        result = {
+          ...result,
+          ...item.getResult(command.toLocaleLowerCase()),
+        };
+        console.log(result);
         break;
       } else {
         console.log("error command!");
@@ -68,17 +75,91 @@ export default function Home() {
   const [result, setResult] = useState<commandResult>();
   const [pullCardDom, setPullCardDom] = useState<any>();
   const [pushCardDom, setPushCardDom] = useState<any>();
+  const relayHashRef = useRef("");
+  const pontemProviderRef = useRef<any>(null);
+  let contract = useRef<any>(null);
 
   useEffect(() => {
-    setResult(parsingCommand(command));
+    if ((window as any).pontem) {
+      pontemProviderRef.current = (window as any).pontem;
+      contract.current = new Contract(
+        contractAddress,
+        ABI,
+        pontemProviderRef.current,
+      );
+      console.log("contract.current", contract.current);
+    }
+  }, []);
+
+  useEffect(() => {
+    const value = parsingCommand(command);
+    if (value.type !== "add" && value.type !== "remove") {
+      value.relayHash = relayHashRef.current;
+    }
+    setResult(value);
   }, [command]);
 
+  const contractOfPull = () => {
+    setPullCardDom(
+      <Progress
+        size="sm"
+        isIndeterminate
+        aria-label="Loading..."
+        className="max-w-md my-auto"
+      />,
+    );
+    const timer = setTimeout(() => {
+      const extraData = {
+        from: "1J93t4tZ76hX9i3Qd7aR4yY3F4iGqG6z8z7gPN8oQe",
+        to: "3A3gYZFopmTK1bSVLwsMQDntWQTZARfNXq",
+        gas: "0.002",
+      };
+      setPullCardDom(
+        <TransferCard key="pull" result={result} extraData={extraData} />,
+      );
+    }, 3000);
+  };
+
+  const contractOfPush = () => {
+    setPushCardDom(
+      <Progress
+        size="sm"
+        isIndeterminate
+        aria-label="Loading..."
+        className="max-w-md my-auto"
+      />,
+    );
+    const timer = setTimeout(() => {
+      const extraData = {
+        from: "1J93t4tZ76hX9i3Qd7aR4yY3F4iGqG6z8z7gPN8oQe",
+        to: "3A3gYZFopmTK1bSVLwsMQDntWQTZARfNXq",
+        gas: "0.003821564",
+      };
+      setPushCardDom(
+        <TransferCard key="push" result={result} extraData={extraData} />,
+      );
+    }, 3000);
+  };
+  const contractOfRaisePayment = async () => {
+    try {
+      const result = await pontemProviderRef.current.signAndSubmit(tx);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
+    if (result?.type === "add") {
+      relayHashRef.current = result.relayHash;
+    }
+    if (result?.type === "remove") {
+      relayHashRef.current = "";
+    }
     if (result?.type === "pull") {
-      setPullCardDom(<TransferCard key="pull" {...result} />);
+      contractOfPull();
     }
     if (result?.type === "push") {
-      setPushCardDom(<TransferCard key="push" {...result} />);
+      contractOfPush();
     }
   }, [result]);
 
