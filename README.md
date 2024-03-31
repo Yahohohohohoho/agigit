@@ -2,7 +2,7 @@
   <img src="logo.png" width="200px" align="center" alt="Babel Logo" />
   <h1 align="center">Babel - AgiGit </h1>
   <p align="center">
-    Vercel: ✨ <a href="https://twitter.com/0xBountyBay">vecel link wait</a> ✨
+    Vercel: ✨ <a href="https://agi-git.vercel.app/ ">Agi-Git Link</a> ✨
   </p>
    <p align="center">
       AgiGit is the future git🤩.
@@ -31,6 +31,16 @@ npm run dev
 ```
 
 ### Server
+
+### Connect Wallet
+
+If you need to log in, you will need to install the corresponding Chrome extension. We are using the Pontem Wallet here. Please go to the Google Chrome market to install the `Pontem Aptos Wallet`, and then follow the instructions to register.
+
+<div style="text-align:center;">
+<img src="https://github.com/XinBaoCode/ImageBed/blob/main/remoteBBY/agigit-1.png?raw=true" alt="firstStep.jpg" width="38%" style="display:inline-block;">
+<img src="https://github.com/XinBaoCode/ImageBed/blob/main/remoteBBY/agigit-2.png?raw=true" alt="firstStep.jpg" width="38%" style="display:inline-block;">
+</div>
+
 
 ## Technology stack
 
