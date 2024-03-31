@@ -18,7 +18,9 @@ The Agigit project primarily has two objectives.
 
 1. The first one is to address the storage issue of large models by implementing model compression and model pruning algorithms, thereby using less space to store large models.
 
-2. The second one is to achieve decentralized storage of git through Move contracts.
+2. The second one is to achieve decentralized storage of git through Move contracts.Storing data on a decentralized chain offers the following advantages: Security and Tamper Resistance，Transparency and Traceability, Decentralized trust and ...
+
+> If you are intertested in the decentralized storage  benefits, you can read this blog, which happens recently. 👉  [Urgent: Secret Backdoor Found in XZ Utils Library, Impacts Major Linux Distros](https://thehackernews.com/2024/03/urgent-secret-backdoor-found-in-xz.html)
 
 ## File structure
 
