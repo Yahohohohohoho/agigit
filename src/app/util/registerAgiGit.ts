@@ -5,7 +5,7 @@ export const registerAgiGit = (
   editor: monaco.editor.IStandaloneCodeEditor,
   monaco: Monaco,
 ) => {
-  const gitCommand = "add|commit|push";
+  const gitCommand = "relay|push|pull";
   // 注册一个新的语言
   monaco.languages.register({ id: "AgiGit" });
 
@@ -14,12 +14,15 @@ export const registerAgiGit = (
     tokenizer: {
       root: [
         [
-          /^(AgiGit)(\s+)(add|commit|push)(.*)$/,
+          /^(AgiGit|agigit)(\s+)(relay|push|pull)(.*)$/,
           ["custom-green", "", "custom-green", ""],
         ],
-        [/^(AgiGit)(\s+)(.*)(.*)$/, ["custom-green", "", "custom-error", ""]],
         [
-          /^(.*)(\s+)(add|commit|push)(.*)$/,
+          /^(AgiGit|agigit)(\s+)(.*)(.*)$/,
+          ["custom-green", "", "custom-error", ""],
+        ],
+        [
+          /^(.*)(\s+)(relay|push|pull)(.*)$/,
           ["custom-error", "", "custom-green", ""],
         ],
         [/^(.*)(\s+)(.*)(.*)$/, ["custom-error", "", "custom-error", ""]],
