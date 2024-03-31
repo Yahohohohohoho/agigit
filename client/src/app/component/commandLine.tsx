@@ -23,6 +23,13 @@ export default function CommandLine(props: IProps) {
     setRecordList(list);
   }, []);
 
+  const codeArr = [
+    "agigit relay add",
+    "agigit relay remove",
+    "agigit pull",
+    "agigit push",
+  ];
+
   return (
     <div className="flex y-10 px-4 my-4">
       <div className="w-2/3 rounded-xl border p-2 mr-2">
@@ -57,6 +64,18 @@ export default function CommandLine(props: IProps) {
         </div>
       </div>
       <div className="w-1/3 rounded-xl border p-4 bg-[#fff] font-bold overflow-y-scroll h-[400px] scrollbar-thin">
+        <div className="text-sm text-bold mb-2">
+          We currently recommend following instructions 😋
+        </div>
+        <div className="mb-2">
+          {codeArr.map((item, idx) => {
+            return (
+              <div key={item}>
+                <code className="text-sm">{`${idx+1}. ${item}`}</code>
+              </div>
+            );
+          })}
+        </div>
         <div className="text-xl text-bold mb-2">History Record</div>
         <div>
           {recordList.map((item: string, idx: number) => {
