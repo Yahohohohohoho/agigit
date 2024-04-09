@@ -1,5 +1,6 @@
 import { Navbar, NavbarBrand } from "@nextui-org/react";
 import { AcmeLogo } from "../icon/AcmeLogo";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Narbar() {
   return (
@@ -10,6 +11,7 @@ export default function Narbar() {
         <p className=" text-[#c6cad6] text-[22px] mx-5">
           Facilitating seamless collaboration in AGI training
         </p>
+          <ConnectButton />
       </NavbarBrand>
     </Navbar>
   );

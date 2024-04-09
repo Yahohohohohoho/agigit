@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AppContext } from "./component/wallet/appContext";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi'
 
 const WalletButtons = dynamic(
   () => import("./component/wallet/walletButtons"),
@@ -41,12 +43,19 @@ export default function Page() {
       }
     });
   }
+  const account = useAccount()
+  useEffect(()=> {
+    const { isConnected } = account;
+    if(isConnected) {
+      setLoginState(true)
+    }
+  },[account]);
 
   useEffect(() => {
     if (loginState) {
-      detectProvider()
-        .then((provider) => ((window as any).pontem = provider))
-        .catch(() => console.log("Pontem Wallet not found"));
+      // detectProvider()
+      //   .then((provider) => ((window as any).pontem = provider))
+      //   .catch(() => console.log("Pontem Wallet not found"));
       void router.push("/home");
     }
   }, [loginState, router]);
@@ -61,7 +70,8 @@ export default function Page() {
             <div className="text-[#fff] text-8xl mb-16 type-writer" ref={ref}>
               Babel - AgiGit 🤩
             </div>
-            <WalletButtons setLoginState={setLoginState} />
+            <ConnectButton />
+            {/* <WalletButtons setLoginState={setLoginState} /> */}
           </div>
         </div>
       </AppContext>
